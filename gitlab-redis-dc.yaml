@@ -1,0 +1,68 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: gitlab-ce
+  name: gitlab-ce-redis
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: gitlab-ce
+    deploymentconfig: gitlab-ce-redis
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gitlab-ce
+        deploymentconfig: gitlab-ce-redis
+    spec:
+      containers:
+      - args:
+        - exec redis-server
+        command:
+        - /bin/sh
+        - -ec
+        imagePullPolicy: IfNotPresent
+        name: gitlab-ce-redis
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 300Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: gitlab-ce-volume-4
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: gitlab-ce-volume-4
+        persistentVolumeClaim:
+          claimName: gitlab-ce-redis-data
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - gitlab-ce-redis
+      from:
+        kind: ImageStreamTag
+        name: gitlab-ce-redis:5.0.4
+        namespace: gitlab
+    type: ImageChange

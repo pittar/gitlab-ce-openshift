@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gitlab-ce
+  name: gitlab-ce-postgresql
+spec:
+  ports:
+  - name: 5432-postgresql
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: gitlab-ce
+    deploymentconfig: gitlab-ce-postgresql
+  sessionAffinity: None
+  type: ClusterIP

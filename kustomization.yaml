@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: gitlab
+
+resources:
+  - namespace.yaml
+  - gitlab-sa.yaml
+  - gitlab-is.yaml
+  - gitlab-redis-is.yaml
+  - gitlab-postgresql-pvc.yaml
+  - gitlab-redis-data-pvc.yaml
+  - gitlab-data-pvc.yaml
+  - gitlab-etc-pvc.yaml
+  - gitlab-postgresql-dc.yaml
+  - gitlab-redis-dc.yaml
+  - gitlab-dc.yaml
+  - gitlab-redis-svc.yaml
+  - gitlab-postgresql-svc.yaml
+  - gitlab-svc.yaml
+  - gitlab-role.yaml
+  - gitlab-rolebinding.yaml
+  - gitlab-route.yaml

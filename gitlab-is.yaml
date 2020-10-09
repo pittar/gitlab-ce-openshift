@@ -1,0 +1,18 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: gitlab-ce
+  name: gitlab-ce
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - from:
+      kind: DockerImage
+      name: gitlab/gitlab-ce:12.10.14-ce.0
+    generation: 2
+    importPolicy: {}
+    name: gitlab-12.10.14
+    referencePolicy:
+      type: Source

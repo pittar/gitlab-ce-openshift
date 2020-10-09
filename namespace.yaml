@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    openshift.io/description: "GitLab Community Edition"
+    openshift.io/display-name: "GitLab CE"
+  name: gitlab

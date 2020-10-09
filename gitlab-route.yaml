@@ -1,0 +1,18 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: gitlab-ce
+  name: gitlab-ce
+spec:
+  host: gitlab.apps.cluster-1358.1358.example.opentlc.com
+  port:
+    targetPort: 80-http
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: gitlab-ce
+    weight: 100
+  wildcardPolicy: None
